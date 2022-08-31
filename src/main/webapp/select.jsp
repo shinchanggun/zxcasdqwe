@@ -13,7 +13,7 @@ Connection conn
 
 System.out.println(conn);
 
-String sql="select title, content, bookimg from book";
+String sql="select idx, title, content, bookimg from book";
 PreparedStatement pstmt
 =conn.prepareStatement(sql);
 
@@ -22,7 +22,7 @@ ResultSet rs=pstmt.executeQuery();
 String title="";
 String content="";
 String bookimg="";
-
+int idx=0;
 
 
 %>
@@ -62,6 +62,7 @@ text-overflow: ellipsis;
 </head>
 <body>
 <%while(rs.next()){
+	idx=rs.getInt("idx");
 	title=rs.getString("title");
 	content=rs.getString("content");
 	bookimg=rs.getString("bookimg");
@@ -70,10 +71,13 @@ text-overflow: ellipsis;
 %>
 <div class="book" style="float: left;">
 <img src="/file/<%=bookimg%>">
-<h3><%=title%></h3>
-<p><%=content%></p>
+<h3><a href="/findOne.jsp?idx=<%=idx%>"><%=title%></a></h3>
+<p style="overflow:hidden;text-overflow: ellipsis;white-space:nowrap">
+<%=content%>
+</p>
 </div>
 <%} %>
+]
 <%
 rs.close();
 pstmt.close();
